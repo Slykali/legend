@@ -76,6 +76,15 @@ export default function LegendsFitnessLanding() {
     return () => window.removeEventListener("keydown", onKey);
   }, [mobileOpen]);
 
+  useEffect(() => {
+    if (!mobileOpen) return;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = prev;
+    };
+  }, [mobileOpen]);
+
   const year = new Date().getFullYear();
 
   return (
@@ -145,50 +154,52 @@ export default function LegendsFitnessLanding() {
             </button>
           </div>
         </Container>
-
-        {mobileOpen ? (
-          <div className="md:hidden">
-            <div
-              className="fixed inset-0 z-50 bg-black/75 backdrop-blur-sm"
-              onClick={() => setMobileOpen(false)}
-              aria-hidden
-            />
-            <div className="fixed right-0 top-0 z-50 h-full w-[86%] max-w-sm border-l border-white/10 bg-[#0a0a0a]/95 backdrop-blur-2xl">
-              <div className="flex items-center justify-between border-b border-white/10 px-5 py-4">
-                <div>
-                  <div className="text-sm font-black tracking-[0.2em]" style={{ color: LEGENDS_GREEN }}>
-                    LEGENDS
-                  </div>
-                  <div className="text-xs text-white/65">Fitness</div>
-                </div>
-                <button
-                  type="button"
-                  className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-white/12 bg-white/5 text-white"
-                  onClick={() => setMobileOpen(false)}
-                  aria-label="Menüyü kapat"
-                >
-                  <CloseIcon className="h-5 w-5" />
-                </button>
-              </div>
-              <div className="flex flex-col gap-2 p-5">
-                {navLinks.map((l) => (
-                  <a
-                    key={l.href}
-                    href={l.href}
-                    className="rounded-xl border border-white/10 bg-white/[0.03] px-4 py-3 text-sm font-semibold"
-                    onClick={() => setMobileOpen(false)}
-                  >
-                    {l.label}
-                  </a>
-                ))}
-                <div className="mt-2 border-t border-white/10 pt-4">
-                  <InstagramButton variant="footer" />
-                </div>
-              </div>
-            </div>
-          </div>
-        ) : null}
       </header>
+
+      {/* Tam ekran mobil menü — ayrı katmanda, opak arka plan; alttaki sayfa görünmez */}
+      {mobileOpen ? (
+        <div
+          className="fixed inset-0 z-[200] flex min-h-[100dvh] flex-col bg-[#0a0a0a] md:hidden"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Site menüsü"
+        >
+          <div
+            className="flex shrink-0 items-center justify-between border-b border-white/10 px-5 py-4"
+            style={{ paddingTop: "max(1rem, env(safe-area-inset-top))" }}
+          >
+            <div>
+              <div className="text-sm font-black tracking-[0.2em]" style={{ color: LEGENDS_GREEN }}>
+                LEGENDS
+              </div>
+              <div className="text-xs text-white/65">Fitness</div>
+            </div>
+            <button
+              type="button"
+              className="inline-flex h-11 w-11 items-center justify-center rounded-xl border border-white/12 bg-white/5 text-white"
+              onClick={() => setMobileOpen(false)}
+              aria-label="Menüyü kapat"
+            >
+              <CloseIcon className="h-5 w-5" />
+            </button>
+          </div>
+          <nav className="flex min-h-0 flex-1 flex-col gap-3 overflow-y-auto p-5 pb-[max(1.25rem,env(safe-area-inset-bottom))]">
+            {navLinks.map((l) => (
+              <a
+                key={l.href}
+                href={l.href}
+                className="rounded-2xl border border-white/10 bg-white/[0.05] px-5 py-4 text-base font-semibold active:bg-white/10"
+                onClick={() => setMobileOpen(false)}
+              >
+                {l.label}
+              </a>
+            ))}
+            <div className="mt-auto border-t border-white/10 pt-6">
+              <InstagramButton variant="footer" />
+            </div>
+          </nav>
+        </div>
+      ) : null}
 
       {/* Hero */}
       <section id="hero" className="relative isolate min-h-[100svh] overflow-hidden">
