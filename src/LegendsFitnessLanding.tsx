@@ -1,8 +1,9 @@
 import { motion, type Variants } from "framer-motion";
 import { useEffect, useMemo, useState } from "react";
 import { Container } from "./components/Container";
+import { MobileMenuOverlay } from "./components/MobileMenuOverlay";
 import { InstagramButton } from "./components/InstagramButton";
-import { CloseIcon, MenuIcon, StarIcon } from "./components/Icons";
+import { MenuIcon, StarIcon } from "./components/Icons";
 import {
   LEGENDS_BLACK,
   LEGENDS_CARD,
@@ -78,12 +79,33 @@ export default function LegendsFitnessLanding() {
 
   useEffect(() => {
     if (!mobileOpen) return;
-    const prev = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
+    const scrollY = window.scrollY;
+    const body = document.body;
+    body.style.setProperty("position", "fixed");
+    body.style.setProperty("top", `-${scrollY}px`);
+    body.style.setProperty("left", "0");
+    body.style.setProperty("right", "0");
+    body.style.setProperty("width", "100%");
+    body.style.setProperty("overflow", "hidden");
     return () => {
-      document.body.style.overflow = prev;
+      body.style.removeProperty("position");
+      body.style.removeProperty("top");
+      body.style.removeProperty("left");
+      body.style.removeProperty("right");
+      body.style.removeProperty("width");
+      body.style.removeProperty("overflow");
+      window.scrollTo(0, scrollY);
     };
   }, [mobileOpen]);
+
+  useEffect(() => {
+    const mq = window.matchMedia("(min-width: 768px)");
+    const onChange = () => {
+      if (mq.matches) setMobileOpen(false);
+    };
+    mq.addEventListener("change", onChange);
+    return () => mq.removeEventListener("change", onChange);
+  }, []);
 
   const year = new Date().getFullYear();
 
@@ -156,50 +178,11 @@ export default function LegendsFitnessLanding() {
         </Container>
       </header>
 
-      {/* Tam ekran mobil menü — ayrı katmanda, opak arka plan; alttaki sayfa görünmez */}
-      {mobileOpen ? (
-        <div
-          className="fixed inset-0 z-[200] flex min-h-[100dvh] flex-col bg-[#0a0a0a] md:hidden"
-          role="dialog"
-          aria-modal="true"
-          aria-label="Site menüsü"
-        >
-          <div
-            className="flex shrink-0 items-center justify-between border-b border-white/10 px-5 py-4"
-            style={{ paddingTop: "max(1rem, env(safe-area-inset-top))" }}
-          >
-            <div>
-              <div className="text-sm font-black tracking-[0.2em]" style={{ color: LEGENDS_GREEN }}>
-                LEGENDS
-              </div>
-              <div className="text-xs text-white/65">Fitness</div>
-            </div>
-            <button
-              type="button"
-              className="inline-flex h-11 w-11 items-center justify-center rounded-xl border border-white/12 bg-white/5 text-white"
-              onClick={() => setMobileOpen(false)}
-              aria-label="Menüyü kapat"
-            >
-              <CloseIcon className="h-5 w-5" />
-            </button>
-          </div>
-          <nav className="flex min-h-0 flex-1 flex-col gap-3 overflow-y-auto p-5 pb-[max(1.25rem,env(safe-area-inset-bottom))]">
-            {navLinks.map((l) => (
-              <a
-                key={l.href}
-                href={l.href}
-                className="rounded-2xl border border-white/10 bg-white/[0.05] px-5 py-4 text-base font-semibold active:bg-white/10"
-                onClick={() => setMobileOpen(false)}
-              >
-                {l.label}
-              </a>
-            ))}
-            <div className="mt-auto border-t border-white/10 pt-6">
-              <InstagramButton variant="footer" />
-            </div>
-          </nav>
-        </div>
-      ) : null}
+      <MobileMenuOverlay
+        open={mobileOpen}
+        navLinks={navLinks}
+        onClose={() => setMobileOpen(false)}
+      />
 
       {/* Hero */}
       <section id="hero" className="relative isolate min-h-[100svh] overflow-hidden">
