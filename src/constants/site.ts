@@ -10,5 +10,5 @@ export const ADDRESS =
 export const PHONE_DISPLAY = "0536 227 63 83";
 export const PHONE_HREF = "tel:+905362276383";
 
-/** Salonun Instagram profili — gerçek kullanıcı adını buraya yazın */
-export const INSTAGRAM_URL = "https://www.instagram.com/legendsfitness";
+/** Instagram ana sayfası */
+export const INSTAGRAM_URL = "https://www.instagram.com/";
