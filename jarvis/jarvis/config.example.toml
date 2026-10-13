@@ -1,0 +1,56 @@
+# JARVIS configuration.
+# Copied to ~/.jarvis/config.toml by `jarvis setup` (Windows: C:\Users\<you>\.jarvis\config.toml).
+# Every setting is optional; delete anything you don't want to change.
+
+[assistant]
+name = "JARVIS"
+user_name = "Sir"            # what JARVIS calls you
+# personality = "You are calm, witty, loyal and extremely competent..."
+history_turns = 12           # conversation turns kept in short-term context
+auto_memory = true           # quietly remember personal facts you mention
+
+[llm]
+provider = "ollama"          # "ollama" or "openai" (LM Studio, llama.cpp server, Jan, LocalAI...)
+base_url = "http://localhost:11434"   # LM Studio: "http://localhost:1234"
+api_key = ""                 # only for servers that require one
+model = "qwen2.5:7b"         # main brain; needs a model with tool calling
+agent_model = ""             # sub-agent model; e.g. "qwen2.5:3b" for speed. Empty = same as model
+embed_model = "nomic-embed-text"      # semantic memory search ("" = keyword search)
+vision_model = "llava:7b"    # for the vision agent (screen/image understanding)
+temperature = 0.4
+num_ctx = 8192               # context window (Ollama)
+timeout = 300
+keep_alive = "30m"           # keep the model loaded in RAM between requests
+
+[voice]
+wake_word = "jarvis"
+stt_model = "base.en"        # Whisper size: tiny.en, base.en, small.en, medium.en, large-v3 (multilingual)
+stt_device = "auto"          # "cpu", "cuda" or "auto"
+tts_rate = 185               # speaking speed (words per minute)
+tts_voice = ""               # macOS: e.g. "Daniel" (British). Windows: e.g. "Microsoft George"
+follow_up_seconds = 8        # keep listening this long after replying, without the wake word
+
+[safety]
+confirm_dangerous = true     # ask before shell commands, running code, deleting/moving files...
+auto_approve = false         # true = never ask (not recommended)
+
+[server]
+host = "127.0.0.1"           # keep local; "0.0.0.0" exposes JARVIS to your network
+port = 8765
+
+[agents]
+disabled = []                # e.g. ["shell", "code"] to remove those sub-agents
+max_steps = 8                # tool calls per sub-agent task
+
+[web]
+searxng_url = ""             # optional self-hosted SearXNG for private search, e.g. "http://localhost:8080"
+
+[weather]
+default_location = ""        # e.g. "London"
+units = "metric"             # or "imperial"
+
+[news.feeds]
+world = "https://feeds.bbci.co.uk/news/world/rss.xml"
+tech = "https://www.theverge.com/rss/index.xml"
+science = "https://www.sciencedaily.com/rss/all.xml"
+hackernews = "https://hnrss.org/frontpage"

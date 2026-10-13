@@ -1,0 +1,7 @@
+# The core needs only Python 3.11+. These optional extras unlock more features:
+psutil>=5.9          # CPU / RAM / battery / process info
+faster-whisper>=1.0  # local speech-to-text (voice mode, HUD microphone)
+sounddevice>=0.4     # microphone capture for voice mode
+numpy>=1.24
+Pillow>=10           # fast multi-monitor screenshots
+pypdf>=4             # PDF reading for the documents agent
