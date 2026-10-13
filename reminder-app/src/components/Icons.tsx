@@ -16,7 +16,7 @@ function Svg({ className, children }: IconProps & { children: ReactNode }) {
       strokeLinejoin="round"
       aria-hidden="true"
       focusable="false"
-      className={className ?? "h-5 w-5"}
+      className={className ?? "h-5 w-5 shrink-0"}
     >
       {children}
     </svg>
