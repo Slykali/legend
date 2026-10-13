@@ -2,7 +2,7 @@ import { useEffect, useId, useMemo, useRef, useState } from "react";
 import type { FormEvent, KeyboardEvent, ReactNode } from "react";
 import type { Category, Priority, Reminder, ReminderInput, Repeat } from "../types";
 import { CATEGORIES, PRIORITIES, REPEATS } from "../types";
-import { Modal } from "./ui/Modal";
+import { MODAL_BOTTOM_PAD, Modal } from "./ui/Modal";
 import { Button } from "./ui/Button";
 import { CalendarIcon, ClockIcon, FlagIcon, RepeatIcon } from "./Icons";
 import {
@@ -441,7 +441,14 @@ export function ReminderForm({
         </div>
 
         {/* Actions */}
-        <div className="mt-1 flex flex-col-reverse gap-2 border-t border-line pt-4 sm:flex-row sm:items-center sm:justify-end">
+        <div
+          style={{
+            bottom: `calc(-1 * ${MODAL_BOTTOM_PAD})`,
+            marginBottom: `calc(-1 * ${MODAL_BOTTOM_PAD})`,
+            paddingBottom: MODAL_BOTTOM_PAD,
+          }}
+          className="sticky z-10 -mx-5 mt-1 flex flex-col-reverse gap-2 border-t border-line bg-surface px-5 pt-4 sm:-mx-6 sm:px-6 sm:flex-row sm:items-center sm:justify-end"
+        >
           <Button variant="ghost" onClick={onClose} className="w-full sm:w-auto">
             Cancel
           </Button>

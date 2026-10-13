@@ -80,10 +80,10 @@ export function ToastProvider({ children }: { children: ReactNode }) {
   );
 }
 
-const TONE_STYLES: Record<ToastTone, { icon: string; bar: string }> = {
-  info: { icon: "bg-accent-soft text-accent", bar: "bg-accent" },
-  success: { icon: "bg-ok/15 text-ok", bar: "bg-ok" },
-  warning: { icon: "bg-warn/15 text-warn", bar: "bg-warn" },
+const TONE_STYLES: Record<ToastTone, string> = {
+  info: "bg-accent-soft text-accent",
+  success: "bg-ok/15 text-ok",
+  warning: "bg-warn/15 text-warn",
 };
 
 function WarningIcon({ className }: { className?: string }) {
@@ -147,7 +147,7 @@ function ToastCard({ toast, onDismiss }: { toast: ToastItem; onDismiss: (id: num
       className="pointer-events-auto relative flex w-full max-w-md items-center gap-3 overflow-hidden rounded-2xl border border-line bg-surface-2/95 py-2.5 pl-3 pr-2 text-sm text-fg shadow-xl shadow-black/40 backdrop-blur"
     >
       <span
-        className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full ${tone.icon}`}
+        className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full ${tone}`}
         aria-hidden="true"
       >
         <ToneIcon tone={toast.tone} />
@@ -174,16 +174,6 @@ function ToastCard({ toast, onDismiss }: { toast: ToastItem; onDismiss: (id: num
       >
         <XIcon className="h-4 w-4" />
       </button>
-      {toast.durationMs > 0 && Number.isFinite(toast.durationMs) && (
-        <motion.span
-          aria-hidden="true"
-          className={`absolute bottom-0 left-0 h-0.5 w-full origin-left opacity-60 ${tone.bar}`}
-          initial={{ scaleX: 1 }}
-          animate={{ scaleX: 0 }}
-          transition={{ duration: toast.durationMs / 1000, ease: "linear" }}
-          style={{ animationPlayState: paused ? "paused" : "running" }}
-        />
-      )}
     </motion.div>
   );
 }

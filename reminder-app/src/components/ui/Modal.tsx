@@ -20,6 +20,9 @@ function getFocusable(root: HTMLElement): HTMLElement[] {
   );
 }
 
+/** Bottom padding of the modal body; content that pins itself to the bottom can offset by it. */
+export const MODAL_BOTTOM_PAD = "max(1.25rem, calc(env(safe-area-inset-bottom) + 1rem))";
+
 export function Modal({ open, onClose, title, children }: ModalProps) {
   const titleId = useId();
   const panelRef = useRef<HTMLDivElement>(null);
@@ -147,7 +150,7 @@ export function Modal({ open, onClose, title, children }: ModalProps) {
 
             <div
               className="overflow-y-auto overscroll-contain px-5 pt-2 sm:px-6"
-              style={{ paddingBottom: "max(1.25rem, calc(env(safe-area-inset-bottom) + 1rem))" }}
+              style={{ paddingBottom: MODAL_BOTTOM_PAD }}
             >
               {children}
             </div>
