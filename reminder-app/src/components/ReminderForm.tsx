@@ -266,6 +266,7 @@ export function ReminderForm({
             id={ids.title}
             type="text"
             autoFocus
+            data-autofocus
             autoComplete="off"
             enterKeyHint="done"
             maxLength={TITLE_MAX}

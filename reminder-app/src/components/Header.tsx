@@ -41,7 +41,6 @@ function NotificationControl({
       onClick={onRequestPermission}
       aria-label="Enable alerts"
       title="Get a notification when a reminder is due"
-      className="gap-1.5"
     >
       <BellIcon className="h-4 w-4 shrink-0" />
       <span className="sm:hidden">Alerts</span>
@@ -63,7 +62,7 @@ export function Header({ permission, onRequestPermission, onAdd }: HeaderProps) 
         </div>
         <div className="flex shrink-0 items-center gap-2">
           <NotificationControl permission={permission} onRequestPermission={onRequestPermission} />
-          <Button variant="primary" size="sm" onClick={onAdd} className="gap-1.5" aria-label="New reminder">
+          <Button variant="primary" size="sm" onClick={onAdd} aria-label="New reminder">
             <PlusIcon className="h-4 w-4 shrink-0" />
             <span>New</span>
           </Button>
